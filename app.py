@@ -73,10 +73,8 @@ def send_mail():
         mime_subtype = "html" if body_type == "html" else "plain"
         msg.attach(MIMEText(body, mime_subtype, "utf-8"))
 
-        with smtplib.SMTP(smtp_host, smtp_port) as server:
+        with smtplib.SMTP_SSL(smtp_host, 465, timeout=10) as server:
             server.set_debuglevel(1)
-            server.ehlo()
-            server.starttls()
             server.ehlo()
             server.login(sender_email, sender_pass)
             server.sendmail(sender_email, receiver_email, msg.as_string())
